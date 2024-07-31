@@ -1,0 +1,54 @@
+import random
+
+# List of words for the game
+WORD_LIST = ["python", "coding", "words", "ireland", "random", "game", "player", "guess"]
+
+
+def select_random_word(word_list):
+    return random.choice(word_list)
+
+
+def display_current_state(word, guessed_letters):
+    display = ''.join([letter if letter in guessed_letters else '_' for letter in word])
+    print("Current state: ", display)
+    return display
+
+
+def hangman():
+    word = select_random_word(WORD_LIST)
+    guessed_letters = set()
+    incorrect_guesses = 0
+    max_incorrect_guesses = 6
+
+    print("Welcome to Hangman!")
+    print(f"The word has {len(word)} letters.")
+
+    while incorrect_guesses < max_incorrect_guesses:
+        display = display_current_state(word, guessed_letters)
+
+        if display == word:
+            print("Congratulations! You've guessed the word correctly!")
+            break
+
+        guess = input("Guess a letter: ").lower()
+
+        if guess in guessed_letters:
+            print("You've already guessed that letter.")
+            continue
+
+        if guess in word:
+            print("Good guess!")
+            guessed_letters.add(guess)
+        else:
+            print("Incorrect guess.")
+            incorrect_guesses += 1
+            guessed_letters.add(guess)
+
+        print(f"Incorrect guesses: {incorrect_guesses}/{max_incorrect_guesses}")
+
+    if incorrect_guesses == max_incorrect_guesses:
+        print(f"Game over! The word was '{word}'.")
+
+
+if __name__ == "__main__":
+    hangman()
